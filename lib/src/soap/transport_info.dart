@@ -1,7 +1,7 @@
 class TransportInfo {
-  String currentTransportState = TransportState.NO_MEDIA_PRESENT;
-  String currentTransportStatus = TransportStatus.OK;
-  String currentSpeed = '1';
+  String? currentTransportState = TransportState.NO_MEDIA_PRESENT;
+  String? currentTransportStatus = TransportStatus.OK;
+  String? currentSpeed = '1';
 
   @override
   String toString() {

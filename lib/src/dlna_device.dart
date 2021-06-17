@@ -1,9 +1,9 @@
 class DLNADevice {
-  String usn;
-  String uuid;
-  String location;
+  String? usn;
+  String? uuid;
+  String? location;
   int cacheControl = 300;
-  DLNADescription description;
+  DLNADescription? description;
 
   bool isFromCache = false;
 
@@ -20,12 +20,12 @@ class DLNADevice {
     expirationTime = aliveTime + time * 1000;
   }
 
-  String get deviceName {
+  String? get deviceName {
     return description?.friendlyName;
   }
 
-  bool get isXiaoMiDevice {
-    return description?.manufacturer?.toLowerCase()?.contains("xiaomi");
+  bool? get isXiaoMiDevice {
+    return description?.manufacturer?.toLowerCase().contains("xiaomi");
   }
 
   @override
@@ -62,21 +62,21 @@ class DLNADevice {
 }
 
 class DLNADescription {
-  String deviceType;
-  String friendlyName;
-  String udn;
+  String? deviceType;
+  String? friendlyName;
+  String? udn;
 
-  String manufacturer;
-  String manufacturerURL;
-  String modelDescription;
-  String modelName;
-  String modelURL;
+  String? manufacturer;
+  String? manufacturerURL;
+  String? modelDescription;
+  String? modelName;
+  String? modelURL;
 
-  List<DLNAService> dlnaServices;
+  List<DLNAService>? dlnaServices;
 
-  String avTransportControlURL;
-  String renderingControlControlURL;
-  String connectionManagerControlURL;
+  String? avTransportControlURL;
+  String? renderingControlControlURL;
+  String? connectionManagerControlURL;
 
   @override
   String toString() {
@@ -88,11 +88,11 @@ class DLNADescription {
 }
 
 class DLNAService {
-  String type;
-  String serviceId;
-  String controlUrl;
-  String eventSubUrl;
-  String SCPDUrl;
+  String? type;
+  String? serviceId;
+  String? controlUrl;
+  String? eventSubUrl;
+  String? SCPDUrl;
 
   @override
   String toString() {

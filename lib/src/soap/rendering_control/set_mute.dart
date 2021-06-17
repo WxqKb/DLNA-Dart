@@ -5,13 +5,13 @@ import '../soap_action.dart';
 class SetMute extends AbsDLNAAction<String> {
   bool mute = false;
 
-  SetMute(bool mute, DLNADevice dlnaDevice) : super(dlnaDevice) {
+  SetMute(bool mute, DLNADevice? dlnaDevice) : super(dlnaDevice) {
     this.mute = mute;
   }
 
   @override
   Future<DLNAActionResult<String>> execute() async {
-    var result = await start();
+    DLNAActionResult<String> result = await start();
     if (result.success) {
       result.result = result.httpContent;
     }
@@ -19,8 +19,8 @@ class SetMute extends AbsDLNAAction<String> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.renderingControlControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.renderingControlControlURL;
   }
 
   @override

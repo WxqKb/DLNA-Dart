@@ -1,16 +1,16 @@
 class PositionInfo {
   static const NOT_IMPLEMENTED = 'NOT_IMPLEMENTED';
-  String title;
-  String url;
+  String? title;
+  String? url;
 
-  String track;
-  String trackDuration = '00:00:00';
-  String trackMetaData = NOT_IMPLEMENTED;
-  String trackURI;
-  String relTime = '00:00:00';
-  String absTime = '00:00:00';
-  String relCount;
-  String absCount;
+  String? track;
+  String? trackDuration = '00:00:00';
+  String? trackMetaData = NOT_IMPLEMENTED;
+  String? trackURI;
+  String? relTime = '00:00:00';
+  String? absTime = '00:00:00';
+  String? relCount;
+  String? absCount;
 
   int get trackDurationSeconds {
     return getTime(trackDuration);
@@ -34,7 +34,7 @@ class PositionInfo {
     }
   }
 
-  int getTime(String time) {
+  int getTime(String? time) {
     switch (time) {
       case '':
       case '00:00:00':
@@ -45,7 +45,7 @@ class PositionInfo {
         break;
       default:
         {
-          return fromTimeString(time);
+          return fromTimeString(time!);
         }
         break;
     }

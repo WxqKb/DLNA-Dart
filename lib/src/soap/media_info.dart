@@ -1,13 +1,13 @@
 class MediaInfo {
-  String currentURI = '';
-  String currentURIMetaData = '';
-  String nextURI = 'NOT_IMPLEMENTED';
-  String nextURIMetaData = 'NOT_IMPLEMENTED';
-  String numberOfTracks = '';
-  String mediaDuration = '00:00:00';
-  String playMedium = StorageMedium.NONE;
-  String recordMedium = StorageMedium.NOT_IMPLEMENTED;
-  String writeStatus = RecordMediumWriteStatus.NOT_IMPLEMENTED;
+  String? currentURI = '';
+  String? currentURIMetaData = '';
+  String? nextURI = 'NOT_IMPLEMENTED';
+  String? nextURIMetaData = 'NOT_IMPLEMENTED';
+  String? numberOfTracks = '';
+  String? mediaDuration = '00:00:00';
+  String? playMedium = StorageMedium.NONE;
+  String? recordMedium = StorageMedium.NOT_IMPLEMENTED;
+  String? writeStatus = RecordMediumWriteStatus.NOT_IMPLEMENTED;
 
   @override
   String toString() {

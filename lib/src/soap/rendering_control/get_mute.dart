@@ -7,18 +7,18 @@ import '../../dlna_device.dart';
 import '../soap_action.dart';
 
 class GetMute extends AbsDLNAAction<bool> {
-  GetMute(DLNADevice dlnaDevice) : super(dlnaDevice);
+  GetMute(DLNADevice? dlnaDevice) : super(dlnaDevice);
 
   @override
   Future<DLNAActionResult<bool>> execute() async {
-    var result = await start();
+    DLNAActionResult<bool> result = await start();
     if (result.success) {
       try {
         final myTransformer = Xml2Json();
-        myTransformer.parse(result.httpContent);
+        myTransformer.parse(result.httpContent!);
         String json = myTransformer.toParker();
         var source = jsonDecode(json);
-        bool muteBool;
+        bool? muteBool;
         var value =
             source['s:Envelope']['s:Body']['u:GetMuteResponse']['CurrentMute'];
         if (value != null) {
@@ -38,8 +38,8 @@ class GetMute extends AbsDLNAAction<bool> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.renderingControlControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.renderingControlControlURL;
   }
 
   @override

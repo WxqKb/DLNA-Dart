@@ -1,8 +1,8 @@
 class DLNAActionResult<T> {
-  bool success;
-  String httpContent;
-  String errorMessage;
-  T result;
+  late bool success;
+  String? httpContent;
+  String? errorMessage;
+  T? result;
 
   DLNAActionResult();
 

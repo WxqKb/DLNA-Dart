@@ -3,11 +3,11 @@ import '../../dlna_device.dart';
 import '../soap_action.dart';
 
 class Pause extends AbsDLNAAction<String> {
-  Pause(DLNADevice dlnaDevice) : super(dlnaDevice);
+  Pause(DLNADevice? dlnaDevice) : super(dlnaDevice);
 
   @override
   Future<DLNAActionResult<String>> execute() async {
-    var result = await start();
+    DLNAActionResult<String> result = await start();
     if (result.success) {
       result.result = result.httpContent;
     }
@@ -15,8 +15,8 @@ class Pause extends AbsDLNAAction<String> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.avTransportControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.avTransportControlURL;
   }
 
   @override

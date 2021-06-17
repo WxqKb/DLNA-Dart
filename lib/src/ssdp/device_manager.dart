@@ -18,23 +18,23 @@ class DiscoveryDeviceManger {
   static const DEVICE_ALIVE_CHECK_RETRY_INTERVAL_TIME = Duration(seconds: 30);
 
   final int _startSearchTime = DateTime.now().millisecondsSinceEpoch;
-  final List<String> _descTasks = [];
-  final Map<String, int> _unnecessaryDevices = {};
-  final Map<String, DLNADevice> _currentDevices = {};
+  final List<String?> _descTasks = [];
+  final Map<String?, int> _unnecessaryDevices = {};
+  final Map<String?, DLNADevice> _currentDevices = {};
 
   final DescriptionParser _descriptionParser = DescriptionParser();
   final LocalDeviceParser _localDeviceParser = LocalDeviceParser();
 
-  Timer _timer;
+  Timer? _timer;
   bool _enableCache = false;
   bool _disable = true;
-  DeviceRefresher _refresher;
+  DeviceRefresher? _refresher;
 
   void enableCache() {
     _enableCache = true;
   }
 
-  Future<List<DLNADevice>> getLocalDevices() async {
+  Future<List<DLNADevice>?> getLocalDevices() async {
     return _localDeviceParser.findAndConvert();
   }
 
@@ -42,7 +42,7 @@ class DiscoveryDeviceManger {
     _refresher = refresher;
     if (_refresher != null) {
       _currentDevices.forEach((key, value) {
-        _refresher.onDeviceAdd(value);
+        _refresher!.onDeviceAdd!(value);
       });
     }
   }
@@ -70,7 +70,7 @@ class DiscoveryDeviceManger {
 
   void disable() {
     if (_timer != null) {
-      _timer.cancel();
+      _timer!.cancel();
       _timer = null;
     }
     _disable = true;
@@ -100,7 +100,7 @@ class DiscoveryDeviceManger {
       cacheTime = int.parse(cache.substring(8));
       // ignore: empty_catches
     } catch (ignore) {}
-    DLNADevice tmpDevice = _currentDevices[uuid];
+    DLNADevice? tmpDevice = _currentDevices[uuid];
     if (tmpDevice == null) {
       int count = _unnecessaryDevices[location] ??= 0;
       if (count > 3) {
@@ -194,7 +194,7 @@ class DiscoveryDeviceManger {
       device.descriptionTaskSpendingTime = endTime - startTime;
       if (desc == null ||
           desc.avTransportControlURL == null ||
-          desc.avTransportControlURL.isEmpty) {
+          desc.avTransportControlURL!.isEmpty) {
         tryCount++;
         _onUnnecessary(device, tryCount);
         return;
@@ -226,7 +226,7 @@ class DiscoveryDeviceManger {
   }
 
   void _onSearchError(String message) {
-    _refresher?.onSearchError(message);
+    _refresher?.onSearchError!(message);
   }
 
   void _onUnnecessary(DLNADevice device, int count) {
@@ -243,7 +243,7 @@ class DiscoveryDeviceManger {
       _localDeviceParser.saveDevices(_currentDevices);
     }
     _descTasks.remove(device.uuid);
-    _refresher?.onDeviceAdd(device);
+    _refresher?.onDeviceAdd!(device);
   }
 
   void _onCacheAdd(DLNADevice device) {
@@ -255,7 +255,7 @@ class DiscoveryDeviceManger {
       _localDeviceParser.saveDevices(_currentDevices);
     }
     _descTasks.remove(device.uuid);
-    _refresher?.onDeviceAdd(device);
+    _refresher?.onDeviceAdd!(device);
   }
 
   void _onUpdate(DLNADevice device) {
@@ -264,16 +264,16 @@ class DiscoveryDeviceManger {
       _localDeviceParser.saveDevices(_currentDevices);
     }
     _descTasks.remove(device.uuid);
-    _refresher?.onDeviceUpdate(device);
+    _refresher?.onDeviceUpdate!(device);
   }
 
-  void _onRemove(String uuid) {
-    DLNADevice device = _currentDevices.remove(uuid);
+  void _onRemove(String? uuid) {
+    DLNADevice? device = _currentDevices.remove(uuid);
     if (device != null) {
       if (_enableCache) {
         _localDeviceParser.saveDevices(_currentDevices);
       }
-      _refresher?.onDeviceRemove(device);
+      _refresher?.onDeviceRemove!(device);
     }
   }
 }

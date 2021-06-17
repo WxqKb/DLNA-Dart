@@ -29,9 +29,9 @@ import 'transport_actions.dart';
 import 'transport_info.dart';
 
 class SOAPController {
-  DeviceRefresher _refresher;
-  DLNADevice currentDevice;
-  SetUrl setUrlTask;
+  DeviceRefresher? _refresher;
+  DLNADevice? currentDevice;
+  SetUrl? setUrlTask;
 
   void setRefresh(DeviceRefresher refresher) {
     _refresher = refresher;
@@ -43,10 +43,10 @@ class SOAPController {
     }
     setUrlTask?.stopPollingPos();
     setUrlTask = SetUrl(currentDevice, didlObject);
-    var result = await setUrlTask.execute();
+    var result = await setUrlTask!.execute();
     if (result.success && didlObject.refreshPosition) {
-      setUrlTask.listenPositionInfo((PositionInfo info) {
-        _refresher?.onPlayProgress(info);
+      setUrlTask!.listenPositionInfo((PositionInfo info) {
+        _refresher?.onPlayProgress!(info);
       });
     }
     return result;

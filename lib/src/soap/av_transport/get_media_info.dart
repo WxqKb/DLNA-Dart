@@ -8,15 +8,15 @@ import '../media_info.dart';
 import '../soap_action.dart';
 
 class GetMediaInfo extends AbsDLNAAction<MediaInfo> {
-  GetMediaInfo(DLNADevice dlnaDevice) : super(dlnaDevice);
+  GetMediaInfo(DLNADevice? dlnaDevice) : super(dlnaDevice);
 
   @override
   Future<DLNAActionResult<MediaInfo>> execute() async {
-    var result = await start();
+    DLNAActionResult<MediaInfo> result = await start();
     if (result.success) {
       try {
         var myTransformer = Xml2Json();
-        myTransformer.parse(result.httpContent);
+        myTransformer.parse(result.httpContent!);
         String json = myTransformer.toParker();
         var value =
             jsonDecode(json)['s:Envelope']['s:Body']['u:GetMediaInfoResponse'];
@@ -40,8 +40,8 @@ class GetMediaInfo extends AbsDLNAAction<MediaInfo> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.avTransportControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.avTransportControlURL;
   }
 
   @override

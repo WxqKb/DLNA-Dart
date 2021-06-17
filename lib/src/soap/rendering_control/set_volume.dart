@@ -5,13 +5,13 @@ import '../soap_action.dart';
 class SetVolume extends AbsDLNAAction<String> {
   int volume = 0;
 
-  SetVolume(int volume, DLNADevice dlnaDevice) : super(dlnaDevice) {
+  SetVolume(int volume, DLNADevice? dlnaDevice) : super(dlnaDevice) {
     this.volume = volume;
   }
 
   @override
   Future<DLNAActionResult<String>> execute() async {
-    var result = await start();
+    DLNAActionResult<String> result = await start();
     if (result.success) {
       result.result = result.httpContent;
     }
@@ -19,8 +19,8 @@ class SetVolume extends AbsDLNAAction<String> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.renderingControlControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.renderingControlControlURL;
   }
 
   @override

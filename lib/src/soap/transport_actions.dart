@@ -7,7 +7,7 @@ class TransportActions {
   static const String Previous = "Previous";
   static const String Record = "Record";
 
-  List<String> actions;
+  late List<String?> actions;
 
   @override
   String toString() {

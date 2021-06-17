@@ -8,18 +8,18 @@ import '../soap_action.dart';
 import '../transport_actions.dart';
 
 class GetTransportActs extends AbsDLNAAction<TransportActions> {
-  GetTransportActs(DLNADevice dlnaDevice) : super(dlnaDevice);
+  GetTransportActs(DLNADevice? dlnaDevice) : super(dlnaDevice);
 
   @override
   Future<DLNAActionResult<TransportActions>> execute() async {
-    var result = await start();
+    DLNAActionResult<TransportActions> result = await start();
     if (result.success) {
       try {
         final myTransformer = Xml2Json();
-        myTransformer.parse(result.httpContent);
+        myTransformer.parse(result.httpContent!);
         String json = myTransformer.toParker();
         var value = jsonDecode(json)['s:Envelope']['s:Body'];
-        var list = List<String>();
+        List<String?> list = [];
         if (value is Map) {
           value.forEach((key, value) {
             list.add(value['Actions']);
@@ -37,8 +37,8 @@ class GetTransportActs extends AbsDLNAAction<TransportActions> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.avTransportControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.avTransportControlURL;
   }
 
   @override

@@ -10,16 +10,16 @@ abstract class AbsDLNAAction<T> {
 
   HttpClient httpClient = HttpClient();
 
-  DLNADevice dlnaDevice;
+  DLNADevice? dlnaDevice;
 
-  AbsDLNAAction(DLNADevice dlnaDevice) {
+  AbsDLNAAction(DLNADevice? dlnaDevice) {
     this.dlnaDevice = dlnaDevice;
     httpClient
       ..connectionTimeout = Duration(seconds: 5)
       ..idleTimeout = Duration(seconds: 5);
   }
 
-  String getControlURL();
+  String? getControlURL();
 
   String getXmlData();
 
@@ -28,8 +28,8 @@ abstract class AbsDLNAAction<T> {
   Future<DLNAActionResult<T>> execute();
 
   Future<DLNAActionResult<T>> start() async {
-    var url = 'http://' + Uri.parse(dlnaDevice.location).authority;
-    var controlURL = getControlURL();
+    var url = 'http://' + Uri.parse(dlnaDevice!.location!).authority;
+    var controlURL = getControlURL()!;
     if (!url.endsWith('/')) {
       url = url + ('/');
     }

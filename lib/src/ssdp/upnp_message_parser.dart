@@ -2,8 +2,8 @@ class DiscoveryContentParser {
   static const SSDP_MSG_ALIVE = 'ssdp:alive';
   static const SSDP_MSG_BYE_BYE = 'ssdp:byebye';
 
-  Function(String usn, String location, String cache) processAlive;
-  Function(String usn) processByeBye;
+  Function(String usn, String location, String cache)? processAlive;
+  Function(String usn)? processByeBye;
 
   DiscoveryContentParser({this.processAlive, this.processByeBye});
 
@@ -28,42 +28,42 @@ class DiscoveryContentParser {
 
   void readSearchResponseMessage(List<String> lines) {
     resolveContent(lines,
-        (String usn, String location, String cache, String nts) {
+        (String? usn, String? location, String? cache, String? nts) {
       if (usn != null &&
           usn.isNotEmpty &&
           location != null &&
           location.isNotEmpty &&
           cache != null &&
           cache.isNotEmpty) {
-        processAlive(usn, location, cache);
+        processAlive!(usn, location, cache);
       }
     });
   }
 
   void readNotifyMessage(List<String> lines) {
     resolveContent(lines,
-        (String usn, String location, String cache, String nts) {
+        (String? usn, String? location, String? cache, String? nts) {
       if (usn != null && usn.isNotEmpty) {
         if (nts == SSDP_MSG_ALIVE) {
           if (location != null &&
               location.isNotEmpty &&
               cache != null &&
               cache.isNotEmpty) {
-            processAlive(usn, location, cache);
+            processAlive!(usn, location, cache);
           }
         } else if (nts == SSDP_MSG_BYE_BYE) {
-          processByeBye(usn);
+          processByeBye!(usn);
         }
       }
     });
   }
 
   void resolveContent(List<String> lines,
-      Function(String usn, String location, String cache, String nts) onData) {
-    String usn;
-    String location;
-    String cache;
-    String nts;
+      Function(String? usn, String? location, String? cache, String? nts) onData) {
+    String? usn;
+    String? location;
+    String? cache;
+    String? nts;
     lines.forEach((element) {
       if (element.isNotEmpty) {
         var header = element.split(': ');

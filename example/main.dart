@@ -11,7 +11,7 @@ Future<void> main() async {
   }, onSearchError: (error) {
     print(error);
   }, onPlayProgress: (positionInfo) {
-    print('current play progress ' + positionInfo.relTime);
+    print('current play progress ' + positionInfo.relTime!);
   }));
   dlnaService.startSearch();
 }

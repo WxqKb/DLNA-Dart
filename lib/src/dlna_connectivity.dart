@@ -5,7 +5,7 @@ import 'package:connectivity/connectivity.dart';
 class DLNAConnectivity {
   final connectivity = Connectivity();
 
-  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  StreamSubscription<ConnectivityResult>? _connectivitySubscription;
 
   void init(Function(bool available) callback) {
     _connectivitySubscription =

@@ -1,8 +1,8 @@
 class DIDLObject {
-  String title;
-  String url;
-  String model;
-  String protocol;
+  String? title;
+  String? url;
+  String? model;
+  String? protocol;
   bool refreshPosition = false;
 
   @override

@@ -4,15 +4,15 @@ import '../play_mode.dart';
 import '../soap_action.dart';
 
 class SetPlayMode extends AbsDLNAAction<String> {
-  PlayMode playMode;
+  PlayMode? playMode;
 
-  SetPlayMode(PlayMode playMode, DLNADevice dlnaDevice) : super(dlnaDevice) {
+  SetPlayMode(PlayMode playMode, DLNADevice? dlnaDevice) : super(dlnaDevice) {
     this.playMode = playMode;
   }
 
   @override
   Future<DLNAActionResult<String>> execute() async {
-    var result = await start();
+    DLNAActionResult<String> result = await start();
     if (result.success) {
       result.result = result.httpContent;
     }
@@ -20,8 +20,8 @@ class SetPlayMode extends AbsDLNAAction<String> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.avTransportControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.avTransportControlURL;
   }
 
   @override

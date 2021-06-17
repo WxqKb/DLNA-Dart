@@ -7,15 +7,15 @@ import '../../dlna_device.dart';
 import '../soap_action.dart';
 
 class GetVolume extends AbsDLNAAction<int> {
-  GetVolume(DLNADevice dlnaDevice) : super(dlnaDevice);
+  GetVolume(DLNADevice? dlnaDevice) : super(dlnaDevice);
 
   @override
   Future<DLNAActionResult<int>> execute() async {
-    var result = await start();
+    DLNAActionResult<int> result = await start();
     if (result.success) {
       try {
         final myTransformer = Xml2Json();
-        myTransformer.parse(result.httpContent);
+        myTransformer.parse(result.httpContent!);
         String json = myTransformer.toParker();
         var source = jsonDecode(json);
         int volumeNum;
@@ -34,8 +34,8 @@ class GetVolume extends AbsDLNAAction<int> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.renderingControlControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.renderingControlControlURL;
   }
 
   @override

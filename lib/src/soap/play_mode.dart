@@ -8,7 +8,7 @@ enum PlayMode {
   INTR
 }
 
-extension PlayModeName on PlayMode {
+extension PlayModeName on PlayMode? {
   String get name {
     if (this == null) {
       throw NullThrownError();

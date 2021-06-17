@@ -47,7 +47,7 @@ class DescriptionParser {
   var httpClient = HttpClient();
 
   Future<DLNADescription> getDescription(DLNADevice dlnaDevice) async {
-    String url = dlnaDevice.location;
+    String url = dlnaDevice.location!;
     var request = await httpClient.getUrl(Uri.parse(url));
     var response = await request.close();
     var responseBody = await response.transform(utf8.decoder).join();
@@ -73,7 +73,7 @@ class DescriptionParser {
     if (serviceList != null) {
       var service = serviceList[SERVICE];
       if (service is List) {
-        var dlnaServices = List<DLNAService>();
+        List<DLNAService> dlnaServices = [];
         for (var item in service) {
           var dlnaService = DLNAService();
           dlnaService.type = item[SERVICE_TYPE];

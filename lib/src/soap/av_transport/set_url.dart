@@ -19,25 +19,25 @@ class SetUrl extends AbsDLNAAction<String> {
       30; // 30 * MAX_POLLING_INTERVAL = 30s
   static const MAX_POLLING_STOP_THRESHOLD = 600;
 
-  StreamController<PositionInfo> _controller;
-  Timer _timer;
+  StreamController<PositionInfo>? _controller;
+  Timer? _timer;
   int retryCount = 0;
   int unresponsiveCount = 0;
   int lastCurrentElapsed = 0;
 
-  DIDLObject didlObject;
-  Function(PositionInfo positionInfo) progress;
+  late DIDLObject didlObject;
+  Function(PositionInfo positionInfo)? progress;
 
-  SetUrl(DLNADevice dlnaDevice, DIDLObject didlObject) : super(dlnaDevice) {
+  SetUrl(DLNADevice? dlnaDevice, DIDLObject didlObject) : super(dlnaDevice) {
     this.didlObject = didlObject;
   }
 
   @override
   Future<DLNAActionResult<String>> execute() async {
-    if (dlnaDevice.isXiaoMiDevice) {
+    if (dlnaDevice!.isXiaoMiDevice!) {
       await Stop(dlnaDevice).execute();
     }
-    var result = await start();
+    DLNAActionResult<String> result = await start();
     if (result.success) {
       result.result = result.httpContent;
       await Play(dlnaDevice).execute();
@@ -60,7 +60,7 @@ class SetUrl extends AbsDLNAAction<String> {
               var transportInfoAction =
                   await GetTransportInfo(dlnaDevice).execute();
               if (transportInfoAction.success &&
-                  transportInfoAction.result.currentTransportState ==
+                  transportInfoAction.result!.currentTransportState ==
                       TransportState.STOPPED) stopPollingPos();
               return;
             }
@@ -85,7 +85,7 @@ class SetUrl extends AbsDLNAAction<String> {
               } else {
                 unresponsiveCount = 0;
               }
-              _controller.add(posInfo);
+              _controller!.add(posInfo);
             }
             lastCurrentElapsed = currentElapsed;
           } else {
@@ -98,15 +98,15 @@ class SetUrl extends AbsDLNAAction<String> {
   }
 
   void listenPositionInfo(void Function(PositionInfo positionInfo) onData) {
-    if (_controller == null || _controller.isClosed) {
+    if (_controller == null || _controller!.isClosed) {
       return;
     }
-    _controller.stream.listen(onData);
+    _controller!.stream.listen(onData);
   }
 
   void stopPollingPos() {
-    if (_controller != null && !_controller.isClosed) {
-      _controller.close();
+    if (_controller != null && !_controller!.isClosed) {
+      _controller!.close();
       _controller = null;
     }
     _timer?.cancel();
@@ -114,16 +114,16 @@ class SetUrl extends AbsDLNAAction<String> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.avTransportControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.avTransportControlURL;
   }
 
   @override
   String getXmlData() {
     var time = DateTime.fromMillisecondsSinceEpoch(
         DateTime.now().millisecondsSinceEpoch);
-    var title = HtmlEscape().convert(didlObject.title);
-    var url = HtmlEscape().convert(didlObject.url);
+    var title = HtmlEscape().convert(didlObject.title!);
+    var url = HtmlEscape().convert(didlObject.url!);
     return """<?xml version='1.0' encoding='utf-8' standalone='yes' ?>
 <s:Envelope s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
 <s:Body>

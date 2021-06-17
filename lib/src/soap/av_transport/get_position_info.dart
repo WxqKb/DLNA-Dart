@@ -8,15 +8,15 @@ import '../position_info.dart';
 import '../soap_action.dart';
 
 class GetPositionInfo extends AbsDLNAAction<PositionInfo> {
-  GetPositionInfo(DLNADevice dlnaDevice) : super(dlnaDevice);
+  GetPositionInfo(DLNADevice? dlnaDevice) : super(dlnaDevice);
 
   @override
   Future<DLNAActionResult<PositionInfo>> execute() async {
-    var result = await start();
+    DLNAActionResult<PositionInfo> result = await start();
     if (result.success) {
       try {
         final myTransformer = Xml2Json();
-        myTransformer.parse(result.httpContent);
+        myTransformer.parse(result.httpContent!);
         String json = myTransformer.toParker();
         var value = jsonDecode(json)['s:Envelope']['s:Body']
             ['u:GetPositionInfoResponse'];
@@ -39,8 +39,8 @@ class GetPositionInfo extends AbsDLNAAction<PositionInfo> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.avTransportControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.avTransportControlURL;
   }
 
   @override

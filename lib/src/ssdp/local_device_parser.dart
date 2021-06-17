@@ -9,18 +9,18 @@ class LocalDeviceParser {
   static const String KEY_DLNA_CACHE_DEVICES = 'key_dlna_cache_devices';
 
   /// Only for Platform.isAndroid || Platform.isIOS
-  void saveDevices(Map<String, DLNADevice> devices) async {
+  void saveDevices(Map<String?, DLNADevice> devices) async {
     var prefs = await SharedPreferences.getInstance();
     var jsonDevices = jsonEncode(devices);
     await prefs.setString(KEY_DLNA_CACHE_DEVICES, jsonDevices);
   }
 
-  Future<String> getCacheDevices() async {
+  Future<String?> getCacheDevices() async {
     var prefs = await SharedPreferences.getInstance();
     return prefs.getString(KEY_DLNA_CACHE_DEVICES);
   }
 
-  Future<List<DLNADevice>> findAndConvert() async {
+  Future<List<DLNADevice>?> findAndConvert() async {
     var deviceStr = await getCacheDevices();
     if (deviceStr == null || deviceStr.isEmpty) {
       return null;

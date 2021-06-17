@@ -8,22 +8,22 @@ import '../device_capabilities.dart';
 import '../soap_action.dart';
 
 class GetDeviceCapabilities extends AbsDLNAAction<DeviceCapabilities> {
-  GetDeviceCapabilities(DLNADevice dlnaDevice) : super(dlnaDevice);
+  GetDeviceCapabilities(DLNADevice? dlnaDevice) : super(dlnaDevice);
 
   @override
   Future<DLNAActionResult<DeviceCapabilities>> execute() async {
-    var result = await start();
+    DLNAActionResult<DeviceCapabilities> result = await start();
     if (result.success) {
       try {
         final myTransformer = Xml2Json();
-        myTransformer.parse(result.httpContent);
+        myTransformer.parse(result.httpContent!);
         String json = myTransformer.toParker();
         var value = jsonDecode(json)['s:Envelope']['s:Body']
             ['u:GetCapabilitiesResponse'];
         var deviceCapabilities = DeviceCapabilities()
-          ..playMedia = value['PlayMedia']?.toString()?.split(',')
-          ..recMedia = value['RecMedia']?.toString()?.split(',')
-          ..recQualityModes = value['RecqualityModes']?.toString()?.split(',');
+          ..playMedia = value['PlayMedia']?.toString().split(',')
+          ..recMedia = value['RecMedia']?.toString().split(',')
+          ..recQualityModes = value['RecqualityModes']?.toString().split(',');
         result.result = deviceCapabilities;
       } catch (e) {
         result.success = false;
@@ -34,8 +34,8 @@ class GetDeviceCapabilities extends AbsDLNAAction<DeviceCapabilities> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.avTransportControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.avTransportControlURL;
   }
 
   @override

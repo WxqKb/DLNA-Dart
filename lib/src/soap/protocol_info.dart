@@ -1,6 +1,6 @@
 class ProtocolInfo {
-  String source;
-  List<ProtocolData> data;
+  String? source;
+  late List<ProtocolData> data;
 
   @override
   String toString() {
@@ -16,7 +16,7 @@ class ProtocolData {
 
   static List<ProtocolData> convert(String s) {
     var items = s.split(',');
-    var list = List<ProtocolData>();
+    List<ProtocolData> list = [];
     for (var value in items) {
       var split = value.split(':');
       if (split.length != 4) {

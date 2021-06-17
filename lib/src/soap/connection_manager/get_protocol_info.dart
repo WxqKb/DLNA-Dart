@@ -8,15 +8,15 @@ import '../protocol_info.dart';
 import '../soap_action.dart';
 
 class GetProtocolInfo extends AbsDLNAAction<ProtocolInfo> {
-  GetProtocolInfo(DLNADevice dlnaDevice) : super(dlnaDevice);
+  GetProtocolInfo(DLNADevice? dlnaDevice) : super(dlnaDevice);
 
   @override
   Future<DLNAActionResult<ProtocolInfo>> execute() async {
-    var result = await start();
+    DLNAActionResult<ProtocolInfo> result = await start();
     if (result.success) {
       try {
         final myTransformer = Xml2Json();
-        myTransformer.parse(result.httpContent);
+        myTransformer.parse(result.httpContent!);
         String json = myTransformer.toParker();
         var value = jsonDecode(json)['s:Envelope']['s:Body']
             ['u:GetProtocolInfoResponse'];
@@ -35,8 +35,8 @@ class GetProtocolInfo extends AbsDLNAAction<ProtocolInfo> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.connectionManagerControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.connectionManagerControlURL;
   }
 
   @override

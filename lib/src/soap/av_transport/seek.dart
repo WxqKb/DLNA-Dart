@@ -3,15 +3,15 @@ import '../../dlna_device.dart';
 import '../soap_action.dart';
 
 class Seek extends AbsDLNAAction<String> {
-  int time;
+  late int time;
 
-  Seek(int time, DLNADevice dlnaDevice) : super(dlnaDevice) {
+  Seek(int time, DLNADevice? dlnaDevice) : super(dlnaDevice) {
     this.time = time;
   }
 
   @override
   Future<DLNAActionResult<String>> execute() async {
-    var result = await start();
+    DLNAActionResult<String> result = await start();
     if (result.success) {
       result.result = result.httpContent;
     }
@@ -19,8 +19,8 @@ class Seek extends AbsDLNAAction<String> {
   }
 
   @override
-  String getControlURL() {
-    return dlnaDevice.description.avTransportControlURL;
+  String? getControlURL() {
+    return dlnaDevice!.description!.avTransportControlURL;
   }
 
   @override

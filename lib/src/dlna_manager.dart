@@ -18,9 +18,9 @@ import 'soap/transport_info.dart';
 import 'ssdp/device_manager.dart';
 
 class DLNAManager {
-  SSDPController _ssdpController;
-  DiscoveryDeviceManger _deviceManger;
-  DiscoveryContentParser _contentParser;
+  SSDPController? _ssdpController;
+  late DiscoveryDeviceManger _deviceManger;
+  late DiscoveryContentParser _contentParser;
 
   final SOAPController _soapController = SOAPController();
   final DLNAConnectivity _dlnaConnectivity = DLNAConnectivity();
@@ -52,7 +52,7 @@ class DLNAManager {
     _deviceManger.enableCache();
   }
 
-  Future<List<DLNADevice>> getLocalDevices() async {
+  Future<List<DLNADevice>?> getLocalDevices() async {
     return _deviceManger.getLocalDevices();
   }
 
@@ -79,8 +79,8 @@ class DLNAManager {
     _hasSearched = true;
     _ssdpController = SSDPController();
     _deviceManger.enable();
-    await _ssdpController.startSearch();
-    _ssdpController.listen((event) {
+    await _ssdpController!.startSearch();
+    _ssdpController!.listen((event) {
       _contentParser.startParse(event);
     });
   }
@@ -88,7 +88,7 @@ class DLNAManager {
   void _stop(bool requestFromUser) {
     _deviceManger.disable();
     if (_ssdpController != null) {
-      _ssdpController.stop();
+      _ssdpController!.stop();
       _ssdpController = null;
     }
     if (requestFromUser) {
@@ -200,12 +200,12 @@ class DLNAManager {
 }
 
 class DeviceRefresher {
-  Function(DLNADevice device) onDeviceAdd;
-  Function(DLNADevice device) onDeviceRemove;
-  Function(DLNADevice device) onDeviceUpdate;
-  Function(String message) onSearchError;
+  Function(DLNADevice device)? onDeviceAdd;
+  Function(DLNADevice device)? onDeviceRemove;
+  Function(DLNADevice device)? onDeviceUpdate;
+  Function(String message)? onSearchError;
 
-  Function(PositionInfo positionInfo) onPlayProgress;
+  Function(PositionInfo positionInfo)? onPlayProgress;
 
   DeviceRefresher(
       {this.onDeviceAdd,
