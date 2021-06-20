@@ -79,8 +79,8 @@ class DLNAManager {
     _hasSearched = true;
     _ssdpController = SSDPController();
     _deviceManger.enable();
-    await _ssdpController!.startSearch();
-    _ssdpController!.listen((event) {
+    await _ssdpController?.startSearch();
+    _ssdpController?.listen((event) {
       _contentParser.startParse(event);
     });
   }
